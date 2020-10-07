@@ -3,25 +3,44 @@ const LinkedList = require("../../src/dataStructures/LinkedList");
 const ListProblems = require("../../src/problems/ListProblems");
 describe("LinkedList test suite", () => {
 
-    describe("Implement a function to check if a linked list is a palindrome.", () => {
-        test("test1", ()=>{
-            const a = new LinkedList();
-            const n1 = new ListNode("a");
-            const n2 = new ListNode("d");
-            const n3 = new ListNode("d");
-            a.insertFirst(n1);
-            a.insertAfter(n1, n2);
-            a.insertAfter(n2, n3);
-            expect(ListProblems.isLinkedListPalindrome(a)).toBe(true);
-        });
-    });
+    describe("Given a circular linked list, implement an algorithm which returns the node at the beginning of the loop. DEFINITION Circular linked list: A (corrupt) linked list in which a node's next pointer points to an earlier node, so as to make a loop in the linked list. EXAMPLE Input: A ->B->C->D->E- > C [the same C as earlier] Output: C", ()=>{
+       describe("Recursive way", ()=>{
+           describe("ListProblems.findFirstInLoop", ()=>{
+               test("When there is a loop in the list", ()=>{
+                const linkedList = new LinkedList();
+                   const n1 = new ListNode("a");
+                   const n2 = new ListNode("d");
+                   const n3 = new ListNode("d");
 
+                   linkedList.insertFirst(n1);
+                   linkedList.insertAfter(n1, n2);
+                   linkedList.insertAfter(n2, n3);
+                   n3.next = n2;
+                   const result = ListProblems.findFirstInLoop(linkedList);
+                   expect(result).toEqual(n2);
+               });
+               test("When there is loop in the list", ()=>{
+                   const linkedList = new LinkedList();
+                   const n1 = new ListNode("a");
+                   const n2 = new ListNode("d");
+                   const n3 = new ListNode("d");
+
+                   linkedList.insertFirst(n1);
+                   linkedList.insertAfter(n1, n2);
+                   linkedList.insertAfter(n2, n3);
+
+                   const result = ListProblems.findFirstInLoop(linkedList);
+                   expect(result).toEqual(false);
+               });
+           });
+       });
+    });
     describe("Implement a function to check if a linked list is a palindrome.", () => {
-        test("test1", ()=>{
+        test("ListProblems.isLinkedListPalindrome", ()=>{
             const a = new LinkedList();
             const n1 = new ListNode("a");
             const n2 = new ListNode("d");
-            const n3 = new ListNode("d");
+            const n3 = new ListNode("a");
             a.insertFirst(n1);
             a.insertAfter(n1, n2);
             a.insertAfter(n2, n3);

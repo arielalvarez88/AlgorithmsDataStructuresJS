@@ -63,8 +63,14 @@ module.exports = class LinkedList{
 
     [Symbol.iterator](){
         let current = this.head;
+        let visited = new Map();
+
         return {
             next: ()=>{
+                if(visited.has(current)){
+                    return {value: undefined, done: true};
+                }
+                visited.set(current, true);
                 const iteratorNext =  {value: current? current.value : undefined, done: Boolean(!current)};
                 current = current? current.next : null;
                 return iteratorNext;

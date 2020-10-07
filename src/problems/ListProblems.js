@@ -3,6 +3,22 @@ const ListNode = require("../dataStructures/ListNode");
 
 module.exports = class ListProblems {
 
+    static findFirstInLoop(linkedList){
+        const head = linkedList.head;
+        const visited = new Map();
+        function traverse(n) {
+            if(visited.has(n)){
+                return n;
+            }
+            if(!n.next){
+                return false;
+            }
+            visited.set(n, true);
+            return traverse(n.next);
+        }
+        return traverse(head);
+    }
+
     static isLinkedListPalindrome(l1){
         const s = [];
 
