@@ -52,19 +52,34 @@ describe("StackAndQueues test suite", () => {
     You may use at most one additional stack to hold items, but you may not copy the elements into any other data 
     structure (such as an array). The stack supports the following operations: push, pop, peek, and isEmpty. (Page 90).`,
         ()=>{
-        test("normal input", ()=>{
-            let stack = new Stack();
-            stack.push(20);
-            stack.push(1);
-            stack.push(1000);
-            stack.push(100);
-            stack.push(10);
-            let result = StackAndQueues.sortWithOneStack(stack);
-            expect(result.pop()).toEqual(1000)
-            expect(result.pop()).toEqual(100)
-            expect(result.pop()).toEqual(120)
-            expect(result.pop()).toEqual(10)
-            expect(result.pop()).toEqual(1)
+        describe("normal input", ()=>{
+            let stack;
+            beforeEach(()=>{
+                stack = new Stack();
+                stack.push(20);
+                stack.push(1);
+                stack.push(1000);
+                stack.push(100);
+                stack.push(10);
+            });
+            function compare(result){
+                expect(result.pop()).toEqual(1000);
+                expect(result.pop()).toEqual(100);
+                expect(result.pop()).toEqual(20);
+                expect(result.pop()).toEqual(10);
+                expect(result.pop()).toEqual(1);
+            }
+
+            test("StackAndQueues.sortWithStacks", ()=>{
+                let result = StackAndQueues.sortWithStacks(stack);
+                compare(result);
+            });
+
+            test("StackAndQueues.sortWithStacksBest", ()=>{
+                let result = StackAndQueues.sortWithStacksBest(stack);
+                compare(result);
+            });
+
         });
     });
 });

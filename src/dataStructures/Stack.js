@@ -4,7 +4,7 @@ module.exports = class Stack {
     }
 
     push(item) {
-        this.data.unshift(item);
+        this.data.push(item);
     }
 
     isEmpty() {
@@ -16,6 +16,6 @@ module.exports = class Stack {
     }
 
     peek() {
-        return this.data[0];
+        return this.data[this.data.length - 1];
     }
 };
