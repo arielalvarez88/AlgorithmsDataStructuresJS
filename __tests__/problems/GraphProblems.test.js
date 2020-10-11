@@ -2,6 +2,7 @@ const BinaryTreeNode = require("../../src/dataStructures/BinaryTreeNode");
 const GraphsProblems = require("../../src/problems/GraphsProblems");
 const GraphNode = require("../../src/dataStructures/GraphNode");
 const Edge = require("../../src/dataStructures/Edge");
+
 describe("GraphProblems test suite", () => {
 
     let n1, n2, n3, n4, n5, n6, n7;
@@ -54,6 +55,49 @@ describe("GraphProblems test suite", () => {
         });
     });
 
+    describe("Cracking code Interview 4.9 - You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum to a given value. The path does not need to start or end at the root or a leaf. (Page 95).",()=>{
+       describe("Typical input", ()=>{
+
+          describe("Tree with 3 paths", ()=>{
+              let spy, nn1, nn2, nn3, nn4, nn5, nn6, expectedPrints = [[2,3], [3,2], [1,3,1]];
+              beforeEach(()=>{
+                  spy = jest.spyOn(console,"log");
+                  nn1 = new BinaryTreeNode(1);
+                  nn2 = new BinaryTreeNode(2);
+                  nn3 = new BinaryTreeNode(3);
+                  nn4 = new BinaryTreeNode(3);
+                  nn5 = new BinaryTreeNode(2);
+                  nn6 = new BinaryTreeNode(1);
+
+                  nn1.setLeft(nn2);
+                  nn2.setLeft(nn3);
+
+                  nn1.setRight(nn4);
+                  nn4.setLeft(nn5);
+                  nn4.setRight(nn6);
+              });
+              afterEach(()=>{
+                 jest.clearAllMocks();
+              });
+              test("GraphsProblems.printPathsWithSum method", ()=>{
+                  GraphsProblems.printPathsWithSum(nn1,5);
+                  expectedPrints.forEach((expectedPrint)=>{
+                     expect(spy).toBeCalledWith(expectedPrint);
+                  });
+
+              });
+              test("GraphsProblems.printPathsWithSumBest method", ()=>{
+                  GraphsProblems.printPathsWithSumBest(nn1,5);
+                  expectedPrints.forEach((expectedPrint)=>{
+                      expect(spy).toBeCalledWith(expectedPrint);
+                  });
+
+              });
+
+          });
+
+       });
+    });
     describe("Given a directed graph, design an algorithm to find out whether there is a route between two nodes.", () => {
         test("Test 1", () => {
             const n1 = new GraphNode(1);
@@ -146,7 +190,7 @@ describe("GraphProblems test suite", () => {
                     expect(callback).toBeCalledWith(n4, 3);
                     expect(callback.mock.calls[0][0]).toEqual(n4);
                     expect(callback.mock.calls.length).toEqual(4);
-                })
+                });
             })
         });
 

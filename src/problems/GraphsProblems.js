@@ -275,4 +275,57 @@ module.exports = class GraphProblems {
 
         callback(node, level);
     }
+
+    static printPathsWithSum(node, num){
+
+        function searchPaths(current, paths, sum){
+            const newSum = sum + current.value;
+            if(newSum === num && paths.length > 0){
+                console.log([...paths, current.value]);
+            }
+            if(current.left){
+                searchPaths(current.left, [...paths, current.value], newSum);
+                if(paths.length > 0)
+                    searchPaths(current.left, [current.value], current.value)
+
+            }
+            if(current.right){
+                searchPaths(current.right, [...paths, current.value], newSum)
+                if(paths.length > 0)
+                    searchPaths(current.right, [current.value], current.value)
+            }
+        }
+        searchPaths(node, [], 0);
+    }
+
+    static printPathsWithSumBest(node, num){
+
+        function printPath(level, i, paths){
+            const pathWithSum = [];
+            for(i; i <= level; i++){
+                pathWithSum.push(paths[i]);
+            }
+            console.log(pathWithSum);
+        }
+
+        function searchPaths(current, paths, level){
+            if(current === null){
+                return;
+            }
+            let count = 0;
+            paths[level] = current.value;
+
+            for(let i = level; i >= 0; i--){
+                count = count + paths[i];
+                if(count === num){
+                    printPath(level, i, paths);
+                }
+
+            }
+
+            searchPaths(current.left, paths, level+1);
+            searchPaths(current.right, paths, level+1);
+        }
+        searchPaths(node, [], 0);
+    }
 };
