@@ -1,5 +1,27 @@
 module.exports = class StringProblems {
+    static compressStrInPlace(s){
+        let compressed = "", mem = null;
+        if(typeof s !== "string"){
+            throw new TypeError("Parameter should be a string");
+        }
+        let counter = 0;
+        for(let c of s){
+            if(!mem){
+                mem = c;
+            }
+            if(mem !== c){
+                compressed += mem + counter;
+                mem = c;
+                counter = 0;
+            }
+            counter++;
+        }
+        if(s.length > 0){
+            compressed += mem + counter;
+        }
+        return s.length <= compressed.length? s : compressed;
 
+    }
     static compress(str){
 
         for(let c of str){

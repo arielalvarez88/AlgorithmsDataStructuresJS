@@ -41,9 +41,23 @@ describe("StringProblems test suite", () => {
     });
 
     describe("Implement a method to perform basic string compression using the counts of repeated characters. For example, the string aabcccccaaa would become a2blc5a3. If the \"compressed\" string would not become smaller than the original string, your method should return the original string.", ()=>{
-        test("test 1",()=>{
-            let str = "aaabccaa"
-            expect(StringProblems.compress(str)).toEqual("a3bc2");
-        })
+        describe("In place solutions",()=>{
+            describe("testing method StringProblems.compressStrInPlace",()=>{
+                test("No compression multiple character input", ()=>{
+                    let str = "ab";
+                    expect(StringProblems.compressStrInPlace(str)).toEqual("ab");
+                });
+                test("Usual input without compression multiple character case", ()=>{
+                    let str = "abbcddd";
+                    expect(StringProblems.compressStrInPlace(str)).toEqual("abbcddd");
+                });
+
+                test("String with compression", ()=>{
+                    let str = "aaaaaadbb";
+                    expect(StringProblems.compressStrInPlace(str)).toEqual("a6d1b2");
+                });
+            });
+
+        });
     });
 });
