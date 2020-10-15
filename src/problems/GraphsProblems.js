@@ -1,4 +1,5 @@
 const LinkedList = require("../dataStructures/LinkedList");
+const Queue = require("../dataStructures/Queue");
 module.exports = class GraphProblems {
 
     static isComplete(rootNode, minHeightDistance = 1) {
@@ -327,5 +328,110 @@ module.exports = class GraphProblems {
             searchPaths(current.right, paths, level+1);
         }
         searchPaths(node, [], 0);
+    }
+
+    static distanceK(root, target, K){
+        if(!root.left && !root.right && K > 0){
+            return [];
+        }
+        let valuesOfPathTarget = new Set();
+        let valuesToLevels = new Map();
+        let nodesWithDistanceK = [];
+
+        function depthFirstPreOrderSearch(n, visit, level, valuesOfPath){
+
+            const valuesOfPathCurrent = new Set([...valuesOfPath]);
+            valuesOfPathCurrent.add(n.value);
+            valuesToLevels.set(n.value, level);
+
+            let stop = visit(n, level, valuesOfPathCurrent);
+            if(!stop && n.left){
+                stop = depthFirstPreOrderSearch(n.left, visit, level+1, valuesOfPathCurrent);
+            }
+            if(!stop && n.right){
+                stop = depthFirstPreOrderSearch(n.right, visit, level+1, valuesOfPathCurrent);
+            }
+            return stop;
+
+        }
+
+        function findTarget(n, level, valuesOfPathCurrent){
+            if(n.value === target.value){
+                valuesOfPathTarget = valuesOfPathCurrent;
+                return target;
+            }
+            return false;
+        }
+
+        function checkDistance(n, level, valuesOfPathCurrent){
+            let commonParent = [...valuesOfPathCurrent].filter(val=>valuesOfPathTarget.has(val));
+            if(commonParent.length <= 0){
+                return;
+            }
+            commonParent = commonParent.length > 1? target.value : commonParent[0];
+            const distanceCommonParentAndCurrent = valuesToLevels.get(commonParent) - valuesToLevels.get(n.value);
+            const distanceCommonAndTarget = valuesToLevels.get(commonParent) - valuesToLevels.get(target.value);
+            if(Math.abs(distanceCommonParentAndCurrent) + Math.abs(distanceCommonAndTarget) === K){
+                nodesWithDistanceK.push(n.value);
+            }
+            return false;
+        }
+
+        depthFirstPreOrderSearch(root, findTarget, 1, new Set());
+        depthFirstPreOrderSearch(root, checkDistance, 1, new Set());
+        return nodesWithDistanceK;
+    }
+
+    static distanceKBest(root, target, K){
+       const parents = new Map();
+       const rememberParents = (node, parent)=>{
+           if(node !== null){
+               parents.set(node, parent);
+               rememberParents(node.left, node);
+               rememberParents(node.right, node);
+           }
+       };
+       const response = [];
+       const bds = (root)=>{
+
+           const q = new Queue();
+           q.enqueue(null);
+           q.enqueue(target);
+           let node, distance = 0, visited = new Map();
+           visited.set(target, null);
+           visited.set(null, null);
+           while(!q.isEmpty()){
+               node = q.dequeue();
+
+               if(node==null){
+                   if(distance === K){
+                       for(let leftNode of q){
+                           response.push(leftNode.value);
+                       }
+                       return response;
+                   }
+                   distance++;
+                   q.enqueue(null);
+               }else{
+
+                   if(node.left && !visited.has(node.left)){
+                       q.enqueue(node.left);
+                       visited.set(node.left, true);
+                   }
+                   if(node.right && !visited.has(node.right)){
+                       q.enqueue(node.right);
+                       visited.set(node.right, true);
+                   }
+                   const parent = parents.get(node);
+                   if(!visited.has(parent)){
+                       q.enqueue(parent);
+                       visited.set(parent, true);
+                   }
+               }
+           }
+       };
+
+       rememberParents(root,null);
+       return bds(root);
     }
 };

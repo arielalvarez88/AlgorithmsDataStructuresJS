@@ -214,4 +214,63 @@ describe("GraphProblems test suite", () => {
 
 
     });
+
+    describe("LeetCode: 863. All Nodes Distance K in Binary Tree", ()=>{
+       describe("Corner cases", ()=>{
+          describe("Input: 1 node tree", ()=>{
+              let nn1;
+             beforeEach(()=>{
+                nn1 = new BinaryTreeNode(1);
+             });
+             test("GraphsProblems.distanceK", ()=>{
+                expect(GraphsProblems.distanceK(nn1, nn1, 2)).toEqual([]);
+                 expect(GraphsProblems.distanceK(nn1, nn1, 0)).toEqual([1]);
+             });
+          });
+
+       });
+
+        describe("Normal cases", ()=>{
+            describe("Input: root = [3,5,1,6,2,0,8,null,null,7,4], target = 5, K = 2", ()=>{
+                let nod3, nod5, nod1, nod6, nod2, nod0, nod8, nod7, nod4, result, target, K;
+                beforeEach(()=>{
+                    result = [7,4,1];
+
+                    K = 2;
+                    nod3 = new BinaryTreeNode(3);
+                    nod5 = new BinaryTreeNode(5);
+                    nod1 = new BinaryTreeNode(1);
+
+                    nod3.setLeft(nod5);
+                    nod3.setRight(nod1);
+
+                    nod6 = new BinaryTreeNode(6);
+                    nod2 = new BinaryTreeNode(2);
+                    nod0 = new BinaryTreeNode(0);
+                    nod8 = new BinaryTreeNode(8);
+
+                    nod5.setLeft(nod6);
+                    nod5.setRight(nod2);
+
+                    nod1.setLeft(nod0);
+                    nod1.setRight(nod8);
+
+                    nod7 = new BinaryTreeNode(7);
+                    nod4 = new BinaryTreeNode(4);
+
+                    nod2.setLeft(nod7);
+                    nod2.setRight(nod4);
+                    target = nod5;
+                });
+
+                test("GraphsProblems.distanceK", ()=>{
+                    expect(GraphsProblems.distanceK(nod3, target, K)).toEqual(result);
+                });
+                test("GraphsProblems.distanceKBest", ()=>{
+                    expect(GraphsProblems.distanceKBest(nod3, target, K)).toEqual(result);
+                });
+            });
+
+        });
+    });
 });
