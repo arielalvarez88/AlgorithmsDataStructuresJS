@@ -125,6 +125,67 @@ let merge = (firstHalf, secondHalf)=>{
     return finalArr;
 };
 
+/**
+ *
+ * @param {Array} Arr
+ * @param {Number} startFirst
+ * @param {Number} endFirst
+ * @param {Number} endSec
+ * @returns {Array}
+ */
+const mergeWithIndexes = function (Arr, startFirst, endFirst, endSec){
+    if(!Array.isArray(Arr)){
+        throw TypeError("Arr para needs to be an instance of Array");
+    }
+    if( Arr.length <= 0 || Arr.length === 1){
+        return Arr;
+    }
+
+    let i = 0, j = 0;
+    const firstSub = Arr.slice(startFirst, endFirst+1);
+    const secondSub = Arr.slice(endFirst+1, endSec+1);
+    for(let k = startFirst; k <= endSec; k++){
+        if(j >= secondSub.length || i < firstSub.length && firstSub[i] <= secondSub[j]){
+            Arr[k] = firstSub[i];
+            i++;
+        }else{
+            Arr[k] = secondSub[j];
+            j++;
+        }
+    }
+    return Arr;
+};
+
+/**
+ *
+ * Merge 2 contiguos and ordered sub-arrays into 1 ordered array and substitute in place the two sub-arrays by the final
+ * ordered array (sub array 1 starts at p, and the last index is at q. Sub array 2 starts at q+1 and ends at r index inclusive).
+ *
+ * @param {Array} A
+ * @param {Number} p - lower index of the first sub-array
+ * @param {Number} q - last index of first sub-array
+ * @param {Number} r - last index of second sub-array
+ * @returns {Array} sorted array
+ */
+const merge2 =  function (A,p,q,r){
+    let left = A.slice(p, q+1);
+    left.push(Number.MAX_SAFE_INTEGER);
+    let right = A.slice(q+1, r+1);
+    right.push(Number.MAX_SAFE_INTEGER);
+    let response = [];
+    for (i = 0; i < r-p +1; i++){
+        if(left[0] <= right[0]){
+            A.splice(p+i, 1, left.shift());
+        }else{
+            A.splice(p+i, 1, right.shift());
+        }
+    }
+
+    return A;
+};
+
+
+
 const insertionSort2 = (arr)=>{
     for(let i = 0; i < arr.length; i++){
         const current = arr[i];
@@ -141,7 +202,7 @@ const insertionSort2 = (arr)=>{
 
 module.exports={
     quickSort,
-    mergeSort,
     mergeSort2,
+    mergeWithIndexes,
     insertionSort2,
 };

@@ -13,6 +13,7 @@ describe("Binary Tree Node", ()=>{
         expect(rootNode.left).toBe(leftNode);
         expect(rootNode.right).toBe(rightNode);
     });
+
     describe("Breadth first traversal",()=>{
         test("algorithm 1", ()=>{
             const rootNode = new BinaryTreeNodeTest(5);
