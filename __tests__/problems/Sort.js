@@ -1,4 +1,4 @@
-const {mergeSort2, insertionSort2, mergeWithIndexes} = require("../../src/problems/Sorts");
+const {mergeSort2, insertionSort2, mergeWithIndexes, binarySearch} = require("../../src/problems/Sorts");
 const {quickSort} = require("../../src/problems/Sorts");
 
 describe("Search problem test suite",()=>{
@@ -182,5 +182,58 @@ describe("Search problem test suite",()=>{
 
             expect(mergeSort2(a)).toEqual([1,3,10,11,20]);
         })
-    })
+    });
+
+
+    describe("Binary search", ()=>{
+        let arr, indexOfTarget, target;
+        describe("Edge cases", ()=>{
+           describe("1 element", ()=>{
+
+               beforeAll(()=>{
+                   arr = [1];
+                   target=1;
+                   indexOfTarget = 0;
+               });
+               test("binarySearch function", ()=>{
+                  expect(binarySearch(arr, target)).toEqual(indexOfTarget);
+               });
+           });
+        });
+
+        describe("Average cases", ()=>{
+            describe("pair amount of elements", ()=>{
+                beforeAll(()=>{
+                    arr = [1,30, 100, 202, 350, 370, 400, 500];
+                    target = 350;
+                    indexOfTarget = 4;
+                });
+                test("binarySearch function", ()=>{
+                    expect(binarySearch(arr, target)).toEqual(indexOfTarget);
+                });
+            });
+
+            describe("odd amount of elements", ()=>{
+                beforeAll(()=>{
+                    arr = [1,30, 100, 202, 400, 350, 370];
+                    target = 350;
+                    indexOfTarget = 5;
+                });
+                test("binarySearch function", ()=>{
+                    expect(binarySearch(arr, target)).toEqual(indexOfTarget);
+                });
+            });
+
+            describe("Not present", ()=>{
+                beforeAll(()=>{
+                    arr = [1,30, 100, 202, 400, 350, 370];
+                    target = 100;
+                    indexOfTarget = -1;
+                });
+                test("binarySearch function", ()=>{
+                    expect(binarySearch(arr, target)).toEqual(indexOfTarget);
+                });
+            });
+        });
+    });
 });

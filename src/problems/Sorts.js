@@ -13,6 +13,40 @@ function insertionSort(arr){
     return arr;
 }
 
+/**
+ *
+ * @param {Array} arr
+ * @param {Number} target
+ * @returns {Number} index where the target is within the array arr. If targe is not present returns -1.
+ */
+function binarySearch(arr, target){
+    if(!Array.isArray(arr) || typeof target !== 'number' ){
+        throw new TypeError("First parameter should be an array and second param should be a number.");
+    }
+    if(arr.length <= 0){
+        return -1;
+    }
+
+    if(arr.length > 0){
+
+    }
+
+    function _binarySearch (subArr, minIndex){
+        const middle = Math.ceil((subArr.length - 1 )/ 2);
+        if(subArr[middle] === target){
+            return minIndex + middle;
+        }
+        if(subArr.length <= 1){
+            return -1;
+        }
+        const leftSideResult = _binarySearch(subArr.slice(0, middle-1), 0);
+        const rightSideResult = _binarySearch(subArr.slice(middle+1), minIndex + middle + 1);
+        return leftSideResult >= 0? leftSideResult : rightSideResult;
+    };
+
+    return _binarySearch(arr, 0);
+}
+
 function bubbleSort(arr){
     let initalDone = false;
     for(let i =0; i<arr.length-1; i++){
@@ -205,4 +239,5 @@ module.exports={
     mergeSort2,
     mergeWithIndexes,
     insertionSort2,
+    binarySearch,
 };
