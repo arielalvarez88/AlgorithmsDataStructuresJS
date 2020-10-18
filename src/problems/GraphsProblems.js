@@ -66,6 +66,64 @@ module.exports = class GraphProblems {
 
     }
 
+    /**
+     * Returns true if tree is balanced with a maxDistance configured by the param with that name. False otherwise.
+     * @param {BinaryTreeNode} node
+     * @param {Number} maxDistance
+     * @returns {boolean}
+     */
+    static isTreeBalanced2(node, maxDistance){
+
+        this.breadthFirstTraversal(node, (node) => {
+            this.clearVisitedBinaryTree(node);
+        });
+        let isUnbalanced = false;
+        function dfs(node, level=1) {
+
+            if(!node || node.visited){
+                return;
+            }
+            node.visited = true;
+
+            let currentNodeIsLeaf = !node.left && !node.right;
+
+            if(currentNodeIsLeaf){
+                return 1;
+            }
+
+            let leftHeight=0, rightHeight=0, currentNodeHeight;
+
+            if(!isUnbalanced && node.left && !node.left.visited){
+                leftHeight = dfs(node.left, level+1);
+            }
+            if(!isUnbalanced && node.right && !node.right.visited){
+                rightHeight = dfs(node.right, level+1);
+            }
+
+            if(isUnbalanced){
+                return;
+            }
+
+            if((!leftHeight && !rightHeight) && !isUnbalanced){
+                throw new Error("Circular reference in tree");
+            }
+
+            currentNodeHeight = leftHeight > rightHeight? leftHeight + 1 : rightHeight + 1;
+
+            if(Math.abs(leftHeight - rightHeight) > maxDistance){
+                isUnbalanced = true;
+            }
+            return currentNodeHeight;
+        }
+
+        if(!node.left && !node.right){
+            return true;
+        }
+        dfs(node);
+        return !isUnbalanced;
+    }
+
+
     static isTreeBalanced(node) {
         let info = {isBalanced: true};
         this.breadthFirstTraversal(node, (node, info) => {

@@ -18,41 +18,49 @@ describe("GraphProblems test suite", () => {
 
     describe("isBinaryTreeBalanced", () => {
 
-        test("isBinaryTreeBalanced test 1", () => {
+        describe("Normal input", ()=>{
+            describe("Balanced in 0: ", ()=>{
+                let balanced = 1;
+                test("GraphsProblems.isTreeBalanced function", ()=>{
+                    n1.left = n2;
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
+                    n2.setLeft(n3);
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(false);
+                    n1.setRight(n4);
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
+                    n4.setRight(n5);
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
+                    n5.setRight(n6);
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(false);
+                    n4.setLeft(n7);
+                    expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
+                });
 
-            n1.left = n2;
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
-            n2.setLeft(n3);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(false);
-            n1.setRight(n4);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
-            n4.setRight(n5);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
-            n5.setRight(n6);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(false);
-            n4.setLeft(n7);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(true);
+                test("GraphsProblems.isTreeBalanced2 balanced in 1", ()=>{
+                    n1.left = n2;
+                    expect(GraphsProblems.isTreeBalanced2(n1,1)).toBe(true);
+                    n2.setLeft(n3);
+                    expect(GraphsProblems.isTreeBalanced2(n1,1)).toBe(false);
+                    n1.setRight(n4);
+                    expect(GraphsProblems.isTreeBalanced2(n1, 1)).toBe(true);
+                    n4.setRight(n5);
+                    expect(GraphsProblems.isTreeBalanced2(n1, 1)).toBe(true);
+                    n5.setRight(n6);
+                    expect(GraphsProblems.isTreeBalanced2(n1, 1)).toBe(false);
+                    n4.setLeft(n7);
+                    expect(GraphsProblems.isTreeBalanced2(n1, 1)).toBe(true);
 
-            /*
-             *
-             * A / \ B C <-- difference = 2 / / D E / G
-             *
-             */
+                });
+            });
+        });
 
-            n1.setLeft(n2);
-            n1.setRight(n3);
-            n2.setLeft(n4);
-            n2.setRight(null);
-            n3.setLeft(n5);
-            n3.setRight(null);
-            n5.setLeft(n6);
-            n5.setRight(null);
-            n6.setLeft(null);
-            n6.setRight(null);
-            expect(GraphsProblems.isTreeBalanced(n1)).toBe(false);
-
+        describe("Weird inputs: ", ()=>{
 
         });
+
+
+
+
     });
 
     describe("Cracking code Interview 4.9 - You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum to a given value. The path does not need to start or end at the root or a leaf. (Page 95).",()=>{
