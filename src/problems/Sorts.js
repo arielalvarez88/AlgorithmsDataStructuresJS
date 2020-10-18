@@ -65,6 +65,19 @@ function bubbleSort(arr){
     }
 }
 
+function bubbleSort2(arr){
+    for(let i = 0; i < arr.length -1; i++){
+        for(let j = arr.length -1; j > i; j--){
+            if(arr[j] < arr[j-1]){
+                let swap = arr[j];
+                arr[j] = arr[j-1];
+                arr[j-1] = swap;
+            }
+        }
+    }
+    return arr;
+};
+
 function mergeSort(arr, i = 0, j = arr.length - 1){
     if(i==j){//1,5,6,7,
         return [arr[i]];//7,
@@ -240,4 +253,5 @@ module.exports={
     mergeWithIndexes,
     insertionSort2,
     binarySearch,
+    bubbleSort2,
 };

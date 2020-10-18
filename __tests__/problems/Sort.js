@@ -1,4 +1,4 @@
-const {mergeSort2, insertionSort2, mergeWithIndexes, binarySearch} = require("../../src/problems/Sorts");
+const {mergeSort2, insertionSort2, mergeWithIndexes, binarySearch, bubbleSort2} = require("../../src/problems/Sorts");
 const {quickSort} = require("../../src/problems/Sorts");
 
 describe("Search problem test suite",()=>{
@@ -159,6 +159,10 @@ describe("Search problem test suite",()=>{
                 });
                 test("insertionSort2 function", ()=>{
                     expect(insertionSort2(a)).toEqual(result);
+                });
+
+                test("bubbleSort function", ()=>{
+                    expect(bubbleSort2(a)).toEqual(result);
                 });
             });
 
