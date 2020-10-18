@@ -1,3 +1,4 @@
+const {minAreaFreeRect} = require("../../src/problems/Other");
 const {factorial, maxIncreaseKeepingSkyline} = require("../../src/problems/Other");
 describe("Other problems", ()=>{
 
@@ -20,4 +21,33 @@ describe("Other problems", ()=>{
             });
        });
     });
+
+    describe(`Leetcode 963 -  Minimum Area Rectangle II :  https://leetcode.com/problems/minimum-area-rectangle-ii/`, ()=>{
+        test("Example Input 1 from Leetcode" , ()=>{
+            let input = [[0,1],[2,1],[1,1],[1,0],[2,0]];
+            expect(minAreaFreeRect(input)).toEqual(1.0);
+        });
+
+        test("Example Input 2 from Leetcode" , ()=>{
+            let input = [[1,2],[2,1],[1,0],[0,1]];
+            let epsilon = 0.000001;
+            let min = 2.0 - epsilon;
+            let max = 2.0 + epsilon;
+
+            let result = minAreaFreeRect(input);
+            expect(result).toBeGreaterThanOrEqual(min);
+            expect(result).toBeLessThanOrEqual(max);
+        });
+
+        test("Example Input 3 from Leetcode" , ()=>{
+            let input = [[0,3],[1,2],[3,1],[1,3],[2,1]];
+            expect(minAreaFreeRect(input)).toEqual(0);
+        });
+
+        test("Example Input 4 from Leetcode" , ()=>{
+            let input = [[3,1],[1,1],[0,1],[2,1],[3,3],[3,2],[0,2],[2,3]];
+            expect(minAreaFreeRect(input)).toEqual(2.0);
+        });
+
+    })
 });

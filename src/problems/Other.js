@@ -8,6 +8,110 @@ function factorial(x){
     return x * factorial(x-1);
 }
 
+
+function updateReponse({deltaXSide1, deltaYSide1, delta, minArea, rectanglePoints, pair1, pair2}) {
+    let size1 = Math.sqrt((deltaXSide1 * deltaXSide1) + (deltaYSide1 * deltaYSide1));
+    let deltasOtherSide = delta.split(", ").map((deltaInString) => (Number(deltaInString)));
+    let size2 = Math.sqrt((deltasOtherSide[0] * deltasOtherSide[0]) + (deltasOtherSide[1] * deltasOtherSide[1]));
+    let areaOfRectangle = size1 * size2;
+
+    if (!minArea || areaOfRectangle < minArea) {
+        return {newMinArea: areaOfRectangle, newRectanglePoints: [...pair1, ...pair2]};
+    }
+    return {newMinArea: minArea, newRectanglePoints: rectanglePoints};
+
+}
+
+function checkIfFormRectangle(pair1, pair2) {
+    let m = null;
+
+    let deltaX = pair1[1][0] - pair1[0][0];
+    let deltaY = pair1[1][1] - pair1[0][1];
+    let isRectangle;
+
+    let deltaXSide1 = pair2[0][0] - pair1[0][0];
+    let deltaYSide1 = pair2[0][1] - pair1[0][1];
+
+
+    let deltaXSide2 = pair2[1][0] - pair1[1][0];
+    let deltaYSide2 = pair2[1][1] - pair1[1][1];
+
+    if(deltaX === 0){
+        if(deltaYSide1 === 0 && deltaYSide2 === 0){
+            isRectangle = true;
+        }
+        isRectangle= false;
+    }else{
+        m = deltaY/deltaX;
+        if(m === 0 && (deltaXSide1 === 0 && deltaXSide2 === 0)){
+            isRectangle = true;
+        }
+        else if(deltaXSide1 === 0 || deltaXSide2 === 0){
+            isRectangle= false;
+        }else{
+            let m1 = deltaYSide1/deltaXSide1;
+            let m2 = deltaYSide2/deltaXSide2;
+            isRectangle = (-1 * m * m1)  === 1 && (-1 * m * m2 === 1);
+        }
+    }
+
+    return {deltaXSide1, deltaYSide1, isRectangle};
+}
+
+function minAreaFreeRect(points)
+{
+    points = points.sort((point1, point2)=>{
+       if(point1[0] < point2[0]){
+           return -1;
+       }else if(point1[0] > point2[0]){
+           return 1;
+       }else if( point1[1] > point2[1]){
+           return 1;
+       }else if( point1[1] < point2[1]){
+            return -1;
+       }
+       return 0;
+    });
+
+    let deltasToPairOfPoints = {};
+    let minArea = 0;
+    let rectanglePoints = [];
+
+
+    for(let i = 0; i < points.length ; i++){
+        for(let j = i+1; j < points.length; j++){
+            p1 = points[i];
+            p2 = points[j];
+            deltaX = p2[0] - p1[0]
+            deltaY = p2[1] - p1[1]
+            const key = `${deltaX}, ${deltaY}`;
+            if(!(key in deltasToPairOfPoints)){
+                deltasToPairOfPoints[key] = []
+            }
+            deltasToPairOfPoints[key].push([p1,p2])
+        }
+    }
+
+    for(let [delta, pairs] of Object.entries(deltasToPairOfPoints)){
+        for(let i = 0; i < pairs.length; i++){
+            let pair1 = pairs[i];
+            for(let j = i+1; j < pairs.length; j++){
+                let pair2 = pairs[j];
+
+                let {deltaXSide1, deltaYSide1, isRectangle} = checkIfFormRectangle(pair1, pair2);
+                if(isRectangle){
+                    const {newMinArea, newReactanglePoints } = updateReponse({deltaXSide1, deltaYSide1, delta, minArea, rectanglePoints, pair1, pair2});
+                    minArea = newMinArea;
+                    rectanglePoints = newReactanglePoints;
+                }
+            }
+        }
+    }
+    console.log("Points: ", rectanglePoints);
+    return minArea;
+};
+
+
  const maxIncreaseKeepingSkyline = function(grid) {
         let maxRows = [];
         let maxCols = [];
@@ -35,4 +139,4 @@ function factorial(x){
         return allowedToIncreaseSum;
 };
 
-module.exports = {factorial, maxIncreaseKeepingSkyline};
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect};
