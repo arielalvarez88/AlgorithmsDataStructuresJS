@@ -34,6 +34,7 @@ describe("Bit problems", ()=>{
 
         });
     });
+
     describe(`Fast multiplication recursive algorithm`,()=>{
         test("test 1", ()=>{
             const x = 3;
@@ -43,5 +44,58 @@ describe("Bit problems", ()=>{
             expect(result).toBe(6);
 
         });
+    });
+
+
+    describe(`Leetcode 868  - Binary Gap: https://leetcode.com/problems/binary-gap/`,()=>{
+        describe("Example Input 1 from Leetcode",()=>{
+            let n, result;
+            beforeAll(()=>{
+                n = 22;
+                result = 2;
+
+            });
+            test("maxDistanceBetween1s function", ()=>{
+                expect(BitProblems.maxDistanceBetween1s(n)).toEqual(result);
+            });
+        });
+
+        describe("Example Input 2 from Leetcode",()=>{
+            let n, result;
+            beforeAll(()=>{
+                n = 5;
+                result = 2;
+
+            });
+            test("maxDistanceBetween1s function", ()=>{
+                expect(BitProblems.maxDistanceBetween1s(n)).toEqual(result);
+            });
+        });
+
+        describe("Example Input 3 from Leetcode",()=>{
+            let n, result;
+            beforeAll(()=>{
+                n = 6;
+                result = 1;
+
+            });
+            test("maxDistanceBetween1s function", ()=>{
+                expect(BitProblems.maxDistanceBetween1s(n)).toEqual(result);
+            });
+        });
+
+        describe("Example Input 4 from Leetcode",()=>{
+            let n, result;
+            beforeAll(()=>{
+                n = 8;
+                result = 0;
+
+            });
+            test("BitProblems.maxDistanceBetween1s function", ()=>{
+                expect(BitProblems.maxDistanceBetween1s(n)).toEqual(result);
+            });
+        });
+
+
     });
 });

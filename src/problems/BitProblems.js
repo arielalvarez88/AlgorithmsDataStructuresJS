@@ -1,3 +1,4 @@
+const {toBinaryString} = require("../utils");
 module.exports = class BitProblems{
     static drawHorizontalLine(screen, width, x1, x2, y){
         const resultScreen = [...screen];
@@ -80,4 +81,17 @@ module.exports = class BitProblems{
             console.log(`prev is: ${prev}`);
         }
     }
+
+    static maxDistanceBetween1s(n){
+        let {ones, binary } = toBinaryString(n);
+
+        let maxDistance = 0;
+        for(let i =0; i < ones.length - 1; i++){
+            if(Math.abs(ones[i] - ones[i + 1]) > maxDistance){
+                maxDistance = Math.abs(ones[i] - ones[i+1]);
+            }
+        }
+
+        return maxDistance;
+    };
 };
