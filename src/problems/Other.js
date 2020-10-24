@@ -1,3 +1,4 @@
+const {toBinaryString} = require("../utils");
 
 function factorial(x){
 
@@ -139,4 +140,60 @@ function minAreaFreeRect(points)
         return allowedToIncreaseSum;
 };
 
-module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect};
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+const findKthLargest = function(nums, k) {
+    for(let i =0; i < (nums.length - k + 1); i++){ // k+2 times
+        for(let j = nums.length-1; j > i; j--){ // k+1 (n-k) times
+            if(nums[j] < nums[j-1]){
+                let swap = nums[j];
+                nums[j] = nums[j-1];
+                nums[j-1] = swap;
+            }
+        }
+    }
+
+    return nums[nums.length - k];
+};
+
+const countInversionMergeSort = function(arr){
+    let count = 0;
+   function merge(arr, i, j, middle){
+       const newArr = [];
+        let inversions = 0;
+        let i1 = i , j1 = middle+1;
+        for(let pointer =0; pointer < (j-i+1); pointer++){
+            if(i1 <= middle && ( j1 > j  || arr[i1] <= arr[j1]) ){
+                newArr.push(arr[i1]);
+                i1++;
+            }else{
+                newArr.push(arr[j1]);
+                j1++;
+                inversions += middle - i1 + 1;
+            }
+        }
+        arr.splice(i, j-i+1, ...newArr);
+        return inversions;
+   }
+
+
+   function mergeSort(arr, i, j){
+       if(j-i <= 0){
+           return arr;
+       }
+        let middle = i + Math.floor((j - i) / 2)
+        mergeSort(arr, i, middle);
+        mergeSort(arr, middle+1, j);
+        const inversions = merge(arr, i, j, middle);
+        count += inversions;
+   }
+
+
+   mergeSort(arr, 0 , arr.length-1);
+   return count;
+};
+
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort};
