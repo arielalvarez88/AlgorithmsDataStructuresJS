@@ -193,7 +193,47 @@ const countInversionMergeSort = function(arr){
 
 
    mergeSort(arr, 0 , arr.length-1);
-   return count;
+   return {sorted: arr, inversions: count};
 };
 
-module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort};
+/**
+ * @param {number[]} deck
+ * @return {number[]}
+ */
+const deckRevealedIncreasing = function(deck) {
+    const {sorted}  = countInversionMergeSort(deck);
+
+    function interleave(arr, p, q, r){
+        if(r-p <= 0){
+           return;
+        }
+        let result = [];
+        let i = p, j=q+1;
+
+        for(let k = 0; k < (r-p+1); k++){
+            if(k % 2 === 0){
+             result.push(arr[i]);
+             i++;
+            }else{
+              result.push(arr[j]);
+              j++;
+            }
+        }
+        arr.splice(p, r-p+1, ...result);
+        return arr;
+    }
+
+    function divideAndInterleave(arr, p, r){
+
+        if(r - p <= 0){
+            return arr;
+        }
+        const q =  p + Math.floor ((r - p)/2);
+        const oddNumber = (r-p+1) % 2 !== 0;
+        divideAndInterleave(arr, oddNumber? q : q+1, r);
+        return interleave(arr, p, q, r);
+    };
+    return divideAndInterleave(sorted, 0, deck.length-1);
+};
+
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing};

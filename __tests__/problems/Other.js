@@ -1,3 +1,4 @@
+const {deckRevealedIncreasing} = require("../../src/problems/Other");
 const {countInversionMergeSort} = require("../../src/problems/Other");
 const {factorial, maxIncreaseKeepingSkyline, findKthLargest,minAreaFreeRect} = require("../../src/problems/Other");
 describe("Other problems", ()=>{
@@ -132,7 +133,7 @@ describe("Other problems", ()=>{
                     response = 5;
                 })
                 test('countInversionMergeSort function', function () {
-                    expect(countInversionMergeSort(arr)).toEqual(response);
+                    expect(countInversionMergeSort(arr)['inversions']).toEqual(response);
                 });
             });
 
@@ -143,9 +144,27 @@ describe("Other problems", ()=>{
                     response = 10;
                 })
                 test('countInversionMergeSort function', function () {
-                    expect(countInversionMergeSort(arr)).toEqual(response);
+                    expect(countInversionMergeSort(arr)['inversions']).toEqual(response);
                 });
             });
         });
+    });
+
+    describe("Leetcode 950 - Reveal Cards In Increasing Order https://leetcode.com/problems/reveal-cards-in-increasing-order/",()=>{
+        describe("Normal Input",()=>{
+
+           describe("Input from example 1 in Leetcode: ", ()=>{
+               let arr, result;
+               beforeAll(()=>{
+                   arr = [17,13,11,2,3,5,7];
+                   result = [2,13,3,11,5,17,7];
+               });
+
+               test("deckRevealedIncreasing function", ()=>{
+                   expect(deckRevealedIncreasing(arr)).toEqual(result);
+               });
+
+           });
         });
+    })
 });
