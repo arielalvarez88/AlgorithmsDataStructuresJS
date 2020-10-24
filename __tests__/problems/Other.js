@@ -1,5 +1,5 @@
-const {minAreaFreeRect} = require("../../src/problems/Other");
-const {factorial, maxIncreaseKeepingSkyline} = require("../../src/problems/Other");
+const {countInversionMergeSort} = require("../../src/problems/Other");
+const {factorial, maxIncreaseKeepingSkyline, findKthLargest,minAreaFreeRect} = require("../../src/problems/Other");
 describe("Other problems", ()=>{
 
     describe("Write a function to calculate the factorial of a number", ()=>{
@@ -19,6 +19,62 @@ describe("Other problems", ()=>{
             test("My first solution: OtherProblems.maxIncreaseKeepingSkyline", ()=>{
                 expect(maxIncreaseKeepingSkyline(skyline)).toEqual(result)
             });
+       });
+    });
+
+    describe(`Interview with Raymundo: Write a function that given a number K and movie object 
+        with structure { name: string, rating: number, similar movies: [{[string]: movie}]}, returns top K movies that 
+        are similar to the given movie with the highest rating`, ()=>{
+       describe(`Movie A -> Movie B (rating: 5), Movie C (rating: 8). Then Movie C -> Movie D (rating 10), Movie E 
+           ( rating 1)`, ()=>{
+           let movieGiven, solution, k;
+           beforeAll(()=>{
+               let movieB = {name: "movieB", rating: 5, similarMovies: []};
+               let movieD = {name: "movieD", rating: 10, similarMovies: []};
+               let movieE = {name: "movieE", rating: 1, similarMovies: []};
+               let movieC = {name: "movieC", rating: 8, similarMovies: [movieD, movieE]};
+               movieGiven =  {name: "movieA", rating: 1, similarMovies: [movieB, movieC]};
+               k = 3;
+               solution = [movieD, movieC, movieB];
+           });
+           test(`Solution 1: Get everything into an array, then sort the array with bubble sort to take advantage
+            in bubble sort's property that everything to the left of the pointer is sorted. That way I don't have to sort
+            the whole array`, ()=>{
+
+               function getTopKMovies(givenMovie, k){
+                   let visitedMovies = new Set();
+                   function dfs(movie){
+                       if(movie !== givenMovie){
+                           visitedMovies.add(movie);
+                       }
+
+                        for(let similarMovie of movie.similarMovies){
+                            if(!visitedMovies.has(similarMovie)){
+                                dfs(similarMovie)
+                            }
+                        }
+                   }
+                   dfs(givenMovie);
+                   visitedMovies = [...visitedMovies];
+                   for(let i = 0; i < k; i++){
+                       for(let j = visitedMovies.length - 1;  j > i; j--){
+                           if(visitedMovies[j].rating > visitedMovies[j-1].rating){
+                               let swap = visitedMovies[j];
+                               visitedMovies[j] = visitedMovies[j-1];
+                               visitedMovies[j-1] = swap;
+                           }
+                       }
+                   }
+
+                   return visitedMovies.slice(0,k);
+               }
+
+               let mySolution = getTopKMovies(movieGiven, k);
+               expect(mySolution).toEqual(solution);
+
+
+           })
+
        });
     });
 
@@ -49,5 +105,47 @@ describe("Other problems", ()=>{
             expect(minAreaFreeRect(input)).toEqual(2.0);
         });
 
-    })
+    });
+
+
+    describe(`Leetcode 215 -  Kth Largest Element in an Array https://leetcode.com/problems/kth-largest-element-in-an-array/`, ()=>{
+        test("Example Input 1 from Leetcode" , ()=>{
+            let input = [3,2,1,5,6,4];
+            expect(findKthLargest(input, 2)).toEqual(5);
+        });
+
+        test("Example Input 2 from Leetcode" , ()=>{
+            let input = [3,2,3,1,2,4,5,5,6];
+            expect(findKthLargest(input,4)).toEqual(4);
+        });
+
+    });
+
+
+    describe(`MIT Intro to Algo 2-4d. Give an algorithm that determines the number of inversions in any permutation 
+        on n elements in O(n lg n) worst-case time. (Hint: Modify merge sort.)`,  ()=>{
+        describe("Typical inputs", ()=>{
+            describe('input [2,3,8,6,1]', function () {
+                let arr, response;
+                beforeAll(()=>{
+                    arr = [2,3,8,6,1];
+                    response = 5;
+                })
+                test('countInversionMergeSort function', function () {
+                    expect(countInversionMergeSort(arr)).toEqual(response);
+                });
+            });
+
+            describe('input [5,4,3,2,1]', function () {
+                let arr, response;
+                beforeAll(()=>{
+                    arr = [5,4,3,2,1];
+                    response = 10;
+                })
+                test('countInversionMergeSort function', function () {
+                    expect(countInversionMergeSort(arr)).toEqual(response);
+                });
+            });
+        });
+        });
 });
