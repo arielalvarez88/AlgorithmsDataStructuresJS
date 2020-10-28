@@ -165,6 +165,31 @@ describe("Other problems", ()=>{
                });
 
            });
+
+
+            describe("Input from example 1 in Leetcode: ", ()=>{
+                let arr, result;
+                beforeAll(()=>{
+                    arr = [17,13,11,2,3,5,7,10];
+                    result= [
+                        2,
+                        10,
+                        3,
+                        13,
+                        5,
+                        11,
+                        7,
+                        17
+                    ];
+                });
+
+                test("deckRevealedIncreasing function", ()=>{
+                    expect(deckRevealedIncreasing(arr)).toEqual(result);
+                });
+
+            });
         });
-    })
+    });
+
+
 });

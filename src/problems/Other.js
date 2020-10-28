@@ -196,6 +196,7 @@ const countInversionMergeSort = function(arr){
    return {sorted: arr, inversions: count};
 };
 
+
 /**
  * @param {number[]} deck
  * @return {number[]}
