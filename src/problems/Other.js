@@ -285,12 +285,18 @@ function placeInBinarySearchTree(root, newNode){
             }else{
                 return dfs(n[nextNode]);
             }
-
     }
-
     dfs(root);
     return true;
 }
+/*
 
 
-module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing, canReach};
+
+ */
+
+
+
+
+
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing, canReach, placeInBinarySearchTree};

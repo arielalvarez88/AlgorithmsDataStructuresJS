@@ -2,6 +2,8 @@ const {canReach} = require("../../src/problems/Other");
 const {deckRevealedIncreasing} = require("../../src/problems/Other");
 const {countInversionMergeSort} = require("../../src/problems/Other");
 const {factorial, maxIncreaseKeepingSkyline, findKthLargest,minAreaFreeRect} = require("../../src/problems/Other");
+const BinaryTreeNode =  require("../../src/dataStructures/BinaryTreeNode");
+const {placeInBinarySearchTree} = require("../../src/problems/Other");
 describe("Other problems", ()=>{
 
     describe("Write a function to calculate the factorial of a number", ()=>{
@@ -245,6 +247,28 @@ describe("Other problems", ()=>{
                 })
             });
 
+        });
+    });
+
+    describe("LeetCode 701 - Insert into a Binary Search Tree https://leetcode.com/problems/insert-into-a-binary-search-tree/",()=>{
+        describe('Example 1 from LeetCode', function () {
+            let root, val;
+            beforeAll(()=>{
+                root = new BinaryTreeNode(4);
+                const n2 = new BinaryTreeNode(2);
+                const n1 = new BinaryTreeNode(1);
+                const n3 = new BinaryTreeNode(3);
+                const n7 = new BinaryTreeNode(7);
+                root.setLeft(n2);
+                n2.setLeft(n1);
+                n2.setRight(n3);
+                root.setRight(n7);
+                val = new BinaryTreeNode(5);
+            });
+            test("placeInBinarySearchTree function", ()=>{
+                placeInBinarySearchTree(root, val);
+                expect(root.right.left).toEqual(val);
+            });
         });
     });
 
