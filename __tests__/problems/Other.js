@@ -1,3 +1,4 @@
+const {canReach} = require("../../src/problems/Other");
 const {deckRevealedIncreasing} = require("../../src/problems/Other");
 const {countInversionMergeSort} = require("../../src/problems/Other");
 const {factorial, maxIncreaseKeepingSkyline, findKthLargest,minAreaFreeRect} = require("../../src/problems/Other");
@@ -191,5 +192,60 @@ describe("Other problems", ()=>{
         });
     });
 
+    describe("Leet 1306. Jump Game III - Reveal Cards In Increasing Order https://leetcode.com/problems/reveal-cards-in-increasing-order/",()=>{
+        describe("Normal inputs", ()=>{
+            describe("arr = [0, 1, 1, 1], start = 3, result = true", ()=>{
+                let arr, start, result;
+                beforeAll(()=>{
+                    arr = [0, 1, 1, 1];
+                    start = 3;
+                    result = true;
+                });
+                test("canReach function", ()=>{
+                    expect(canReach(arr, start)).toEqual(result);
+                })
+            });
+
+            describe("arr = [1, 2, 3], start = 1, result = false", ()=>{
+                let arr, start, result;
+                beforeAll(()=>{
+                    arr = [1, 2, 3];
+                    start = 1;
+                    result = false;
+                });
+                test("canReach function", ()=>{
+                    expect(canReach(arr, start)).toEqual(result);
+                })
+            });
+
+        });
+
+        describe("Extreme cases", ()=>{
+            describe("arr = [1], start = 0, result = false", ()=>{
+                let arr, start, result;
+                beforeAll(()=>{
+                    arr = [1];
+                    start = 0;
+                    result = false;
+                });
+                test("canReach function", ()=>{
+                    expect(canReach(arr, start)).toEqual(result);
+                })
+            });
+
+            describe("arr = [0], start = 0, result = true", ()=>{
+                let arr, start, result;
+                beforeAll(()=>{
+                    arr = [0];
+                    start = 0;
+                    result = true;
+                });
+                test("canReach function", ()=>{
+                    expect(canReach(arr, start)).toEqual(result);
+                })
+            });
+
+        });
+    });
 
 });

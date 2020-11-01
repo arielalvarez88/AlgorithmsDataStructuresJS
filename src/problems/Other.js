@@ -237,4 +237,60 @@ const deckRevealedIncreasing = function(deck) {
     return divideAndInterleave(sorted, 0, deck.length-1);
 };
 
-module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing};
+/**
+ * @param {number[]} arr
+ * @param {number} start
+ * @return {boolean}
+ */
+const canReach = function(arr, start) {
+    let visited = new Map();
+    function dfs(i, result){
+        if(i + arr[i] === i){
+            return true;
+        }
+
+        visited.set(i);
+
+        if(!result && i + arr[i] < arr.length && !visited.has(i + arr[i])){
+            result = result || dfs(i + arr[i], result);
+        }
+
+        if(!result && i - arr[i] >= 0 && !visited.has(i-arr[i])){
+            result  = result || dfs(i - arr[i], result); 1
+        }
+
+
+        return result;
+    }
+
+    return dfs(start, false);
+
+};
+
+/**
+ *
+ * @param {BinaryTreeNode} root
+ * @param {BinaryTreeNode} newNode
+ * @returns {boolean}
+ */
+function placeInBinarySearchTree(root, newNode){
+    if(!root || !newNode){
+        return false;
+    }
+    function dfs(n){
+        let nextNode = n.value < newNode.value? 'right' : 'left';
+            if(!n[nextNode]){
+                n[nextNode] = newNode;
+                return;
+            }else{
+                return dfs(n[nextNode]);
+            }
+
+    }
+
+    dfs(root);
+    return true;
+}
+
+
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing, canReach};
