@@ -289,14 +289,58 @@ function placeInBinarySearchTree(root, newNode){
     dfs(root);
     return true;
 }
-/*
+
+function packAnagrams(strings){
+
+    if(!strings || strings.length == 0){
+        return [];
+    }
+
+    let sortedStrings = [];
+    let anagramIndices = [];
+    function getIndicesThatAreAnagrams(strings){
+        for(let i =0; i < strings.length; i++){
+            sortedStrings.push([...strings[i]].sort((a,b)=>{
+                if(a<b){
+                    return -1;
+                }
+                if(a>b){
+                    return 1;
+                }
+                return 0;
+            }));
+        }
+        for(let i =0; i < sortedStrings.length; i++){
+            for(let j = i + 1; j < sortedStrings.length; j++){
+                if(sortedStrings[i].join("") === sortedStrings[j].join("")){
+                    anagramIndices.push(i, j);
+                }
+            }
+        }
+        return anagramIndices;
+    }
+
+    function packAnagrams(strings, anagramIndices){
+        let i = 0;
+
+        while(anagramIndices.length > 0){
+
+            let swap = strings[i];
+            strings[i] = strings[ anagramIndices[0] ];
+            strings[anagramIndices[0]] = swap;
+            anagramIndices.shift();
+            i++;
+        }
+
+
+    }
+
+    anagramIndices = getIndicesThatAreAnagrams(strings);
+    return packAnagrams(strings, anagramIndices)
+
+}
 
 
 
- */
 
-
-
-
-
-module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing, canReach, placeInBinarySearchTree};
+module.exports = {factorial, maxIncreaseKeepingSkyline, minAreaFreeRect, findKthLargest, countInversionMergeSort, deckRevealedIncreasing, canReach, placeInBinarySearchTree, packAnagrams};
