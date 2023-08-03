@@ -2,6 +2,7 @@ const LinkedList = require("../dataStructures/LinkedList");
 const Queue = require("../dataStructures/Queue");
 const GraphNode = require("../dataStructures/GraphNode");
 const Edge = require("../dataStructures/Edge");
+const { zeros } = require("../utils");
 module.exports = class GraphProblems {
   static isComplete(rootNode, minHeightDistance = 1) {
     let info = { leafToDepth: [], depth: 0, isLeftFirst: true };
@@ -596,5 +597,46 @@ module.exports = class GraphProblems {
       length: maxDistanceToNode,
     });
     return maxDistanceToNode;
+  }
+
+  static findShortestsPaths(graph, nodeToIndex = null) {
+    const nodes = graph.getNodesInArray();
+    if (nodeToIndex) {
+      nodes.sort((a, b) => nodeToIndex.get(a.value) - nodeToIndex.get(b.value));
+    }
+    const n = nodes.length;
+    const dist = zeros([n, n, n], Number.POSITIVE_INFINITY);
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        if (i === j) {
+          dist[i][j] = Array(n).fill(0);
+          continue;
+        }
+        const nodeI = nodes[i];
+        const nodeJ = nodes[j];
+        const iEdges = nodeI.edges;
+        const edgesFromIToJ = iEdges.filter((edge) => {
+          if (edge.isDirected) {
+            return edge.destinationNode === nodeJ;
+          }
+          return edge.sourceNode === nodeJ || edge.destinationNode === nodeJ;
+        });
+        const edgesLength = edgesFromIToJ.map((edge) => edge.value);
+        dist[i][j][0] = Math.min(...edgesLength);
+      }
+    }
+    for (let k = 0; k < n; k++) {
+      for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+          const nodesUsable = k - 1 < 0 ? 0 : k - 1;
+          dist[i][j][k] = Math.min(
+            dist[i][k][nodesUsable] + dist[k][j][nodesUsable],
+            dist[i][j][nodesUsable]
+          );
+        }
+      }
+    }
+
+    return { dist, nodes };
   }
 };

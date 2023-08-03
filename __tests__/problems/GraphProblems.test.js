@@ -2,6 +2,7 @@ const BinaryTreeNode = require("../../src/dataStructures/BinaryTreeNode");
 const GraphsProblems = require("../../src/problems/GraphsProblems");
 const GraphNode = require("../../src/dataStructures/GraphNode");
 const Edge = require("../../src/dataStructures/Edge");
+const Graph = require("../dataStructures/Graph");
 
 describe("GraphProblems test suite", () => {
   let n1, n2, n3, n4, n5, n6, n7;
@@ -327,5 +328,57 @@ describe("GraphProblems test suite", () => {
       });
     });
     describe("Invalid cases", () => {});
+  });
+
+  describe("Algo Sanjoy 6.6: Shortest paths between all nodes limited by hops. Assumptions: No negative closed loops", () => {
+    describe("Normal cases", () => {
+      test("No directed and no negative edges, multiple routes", () => {
+        // Graph in Figure 6.8 of Sanjoy's book
+        const s = new GraphNode("s");
+        const a = new GraphNode("a");
+        const b = new GraphNode("b");
+        const c = new GraphNode("c");
+        const d = new GraphNode("d");
+        const t = new GraphNode("t");
+        const nodes = [s, a, b, t, c, d];
+        const nodeValueToIndex = new Map();
+        nodes.forEach((node, index) => {
+          nodeValueToIndex.set(node, index);
+        });
+        const s_aEdge = new Edge(1, s, a, false);
+        const a_bEdge = new Edge(2, a, b, false);
+        const b_tEdge = new Edge(4, b, t, false);
+        const s_cEdge = new Edge(2, s, c, false);
+        const c_dEdge = new Edge(3, c, d, false);
+        const d_tEdge = new Edge(1, d, t, false);
+        const s_dEdge = new Edge(5, s, d, false);
+        const a_dEdge = new Edge(5, a, d, false);
+        const b_dEdge = new Edge(1, b, d, false);
+        const edges = [
+          s_aEdge,
+          a_bEdge,
+          b_tEdge,
+          s_cEdge,
+          c_dEdge,
+          d_tEdge,
+          s_dEdge,
+          a_dEdge,
+          b_dEdge,
+        ];
+        const graph = new Graph({
+          nodes: new Set(nodes),
+          edges: new Set(edges),
+          isDirected: false,
+        });
+        const { dist: shortestsPaths } = GraphsProblems.findShortestsPaths(
+          graph,
+          nodeValueToIndex
+        );
+        const n = nodes.length;
+        expect(shortestsPaths[0][3][n - 1]).toEqual(5);
+        expect(shortestsPaths[0][4][n - 1]).toEqual(2);
+        expect(shortestsPaths[2][5][n - 1]).toEqual(1);
+      });
+    });
   });
 });

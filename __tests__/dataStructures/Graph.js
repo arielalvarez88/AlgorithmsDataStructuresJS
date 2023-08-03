@@ -1,8 +1,4 @@
 module.exports = class Graph {
-  headNode;
-  nodes;
-  edges;
-  isDirected;
   constructor({ nodes = new Set(), edges = new Set(), isDirected = false }) {
     this.nodes = nodes;
     this.edges = edges;
@@ -55,5 +51,13 @@ module.exports = class Graph {
       (e) => new Edge(e.value, e.destinationNode, e.sourceNode, this.isDirected)
     );
     return new Graph(this.nodes, inverseEdges, this.isDirected);
+  }
+
+  getNodesCount() {
+    return this.nodes.size();
+  }
+
+  getNodesInArray() {
+    return [...this.nodes];
   }
 };

@@ -2,7 +2,7 @@ module.exports = class GraphNode {
   constructor(value) {
     this._value = value;
     this.visited = false;
-    this.edges = new Set();
+    this._edges = new Set();
   }
 
   set value(val) {
@@ -14,7 +14,7 @@ module.exports = class GraphNode {
   }
 
   addEdge(e) {
-    this.edges.add(e);
+    this._edges.add(e);
   }
   getAdjacents() {
     const adjacents = [];
@@ -24,5 +24,9 @@ module.exports = class GraphNode {
       }
     }
     return adjacents;
+  }
+
+  get edges() {
+    return [...this._edges];
   }
 };
